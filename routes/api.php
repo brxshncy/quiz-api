@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,4 +12,13 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['prefix'=> 'admin'], function () {
     Route::post('/login', AdminAuthController::class)->name('admin.login');
+});
+
+
+Route::middleware(['admin.role'])
+      ->group(function () {
+         Route::prefix('admin')->group(function () {
+            Route::apiResource('subjects', SubjectController::class)
+            ->names('admin.subject');
+         });
 });

@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 class AdminAuthController extends Controller
 {
-    /**
+/**
      * Handle the incoming request.
      */
     public function __invoke(AdminLoginRequest $request, AuthService $authService)

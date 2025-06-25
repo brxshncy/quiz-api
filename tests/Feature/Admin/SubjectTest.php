@@ -20,7 +20,8 @@ beforeEach(function () {
 
      $this->user->assignRole($this->adminRole);
 
-     $this->subjects  = Subject::factory()->count(3)->create();
+    $this->subjects  = Subject::factory()->count(3)->create();
+    $this->subject  = Subject::factory()->create();
 });
 
 it("allows admin user to create a subject", function () {
@@ -46,5 +47,30 @@ it("allows admin to get all subjects created",  function () {
             ->assertJsonStructure([
                 'success',
                 'data'=>  [['name']]
+            ]);
+});
+
+it("allows admin to update a subject", function () {
+    $response = $this->actingAs($this->user)
+                    ->putJson(route("admin.subject.update", $this->subject), [
+                        'name' => 'Update Subject name'
+                    ]);
+    $response->assertStatus(200)
+            ->assertJsonStructure([
+                'success',
+                'data'=>  ['name']
+            ])
+            ->assertJsonFragment([
+                 'name' => 'Update Subject name',
+            ]);
+});
+
+it("allows admin to delete subject", function () {
+    $response = $this->actingAs($this->user)
+                     ->deleteJson(route("admin.subject.destroy", $this->subject));
+
+    $response->assertStatus(200)
+            ->assertJsonFragment([
+                'data' => 'Subject deleted successfully'
             ]);
 });

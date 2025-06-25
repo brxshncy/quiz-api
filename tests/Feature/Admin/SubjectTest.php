@@ -1,6 +1,7 @@
 <?php
 
 use App\Enum\RoleEnum;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +19,8 @@ beforeEach(function () {
     ]);
 
      $this->user->assignRole($this->adminRole);
+
+     $this->subjects  = Subject::factory()->count(3)->create();
 });
 
 it("allows admin user to create a subject", function () {
@@ -34,4 +37,14 @@ it("allows admin user to create a subject", function () {
              ->assertJsonFragment([
                  'name' => 'Math',
              ]);
+});
+
+it("allows admin to get all subjects created",  function () {
+    $response = $this->actingAs($this->user)->getJson(route('admin.subject.index'));
+
+    $response->assertStatus(200)
+            ->assertJsonStructure([
+                'success',
+                'data'=>  [['name']]
+            ]);
 });

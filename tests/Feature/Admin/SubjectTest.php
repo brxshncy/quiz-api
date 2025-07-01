@@ -10,18 +10,7 @@ use Spatie\Permission\Models\Role;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->adminRole = Role::create(['name' => RoleEnum::ADMIN]);
-
-    $this->user = User::factory()->create([
-        'name' => 'Admin Bruce',
-        'email' => 'admin@test.com',
-        'password' => Hash::make('admin123'),
-    ]);
-
-     $this->user->assignRole($this->adminRole);
-
-    $this->subjects  = Subject::factory()->count(3)->create();
-    $this->subject  = Subject::factory()->create();
+    setupAdminAndSubjects();
 });
 
 it("allows admin user to create a subject", function () {

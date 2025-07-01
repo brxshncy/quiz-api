@@ -5,14 +5,14 @@ namespace App\Http\Requests;
 use App\Enum\RoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubjectRequest extends FormRequest
+class QuizRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasRole(RoleEnum::ADMIN);;
+        return auth()->check() && auth()->user()->hasRole(RoleEnum::ADMIN);
     }
 
     /**
@@ -23,7 +23,10 @@ class SubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'name' => ['required', 'string', 'max:255']
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
+            'subject_id' => ['required', 'exists:subjects,id'],
+            'is_active' => ['boolean'],
         ];
     }
 }

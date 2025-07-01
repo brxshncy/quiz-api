@@ -1,5 +1,9 @@
 <?php
-
+use App\Enum\RoleEnum;
+use App\Models\Subject;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -44,4 +48,20 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+// Define a reusable setup function
+function setupAdminAndSubjects(): void {
+    test()->adminRole = Role::create(['name' => RoleEnum::ADMIN]);
+
+    test()->user = User::factory()->create([
+        'name' => 'Admin Bruce',
+        'email' => 'admin@test.com',
+        'password' => Hash::make('admin123'),
+    ]);
+
+    test()->user->assignRole(test()->adminRole);
+
+    test()->subjects = Subject::factory()->count(3)->create();
+    test()->subject = Subject::factory()->create();
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\Admin\SubjectController;
 use Illuminate\Http\Request;
@@ -23,5 +24,8 @@ Route::middleware(['admin.role'])
                   ->names('admin.subject');
             Route::apiResource("quizzes", QuizController::class)
                  ->names("admin.quizzes");
+            Route::apiResource('questions', QuestionController::class)
+                 ->names("admin.questions");
          });
+     
 });

@@ -1,5 +1,6 @@
 <?php
 use App\Enum\RoleEnum;
+use App\Models\Quiz;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -32,7 +33,7 @@ pest()->extend(Tests\TestCase::class)
 
 expect()->extend('toBeOne', function () {
     return $this->toBe(1);
-});
+}); 
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +65,6 @@ function setupAdminAndSubjects(): void {
 
     test()->subjects = Subject::factory()->count(3)->create();
     test()->subject = Subject::factory()->create();
+
+    test()->quiz = Quiz::factory()->create();
 }

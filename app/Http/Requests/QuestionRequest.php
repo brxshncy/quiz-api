@@ -3,13 +3,14 @@
 namespace App\Http\Requests;
 
 use App\Enum\QuestionTypes;
+use App\Enum\RoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class QuestionRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return auth()->check() && auth()->user()->hasRole(RoleEnum::ADMIN);
     }
 
     public function rules(): array
